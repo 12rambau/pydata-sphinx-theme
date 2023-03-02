@@ -51,7 +51,7 @@ def _get_theme_options(app):
 def _config_provided_by_user(app, key):
     """Check if the user has manually provided the config."""
     return any(key in ii for ii in [app.config.overrides, app.config._raw_config])
-
+    
 
 def update_config(app):
     """Update config with new default values and handle deprecated keys."""
@@ -85,6 +85,14 @@ def update_config(app):
         theme_options["footer_start"] = theme_options.get("footer_items")
         logger.warning(
             "`footer_items` is deprecated. Use `footer_start` or `footer_end` instead."
+        )
+        
+    # DEPRECATE >= v0.15
+    if theme_options.get("favicons"):
+        logger.warning(
+            "Deprecated config `favicons` used."
+            "The favicon configuration have been droped in favor of the sphinx-favicon extention."
+            "Please see their documentation for more information."
         )
 
     # Validate icon links
